@@ -1,0 +1,17 @@
+package xhr
+
+brief      = "An Idris library to interact with the XHR API"
+version    = 0.1.0
+readme     = README.md
+license    = Apache-2.0
+author     = Pierre Beaucamp
+maintainer = The blau.io contributors
+homepage   = https://github.com/blau-io/idris-xhr
+sourceloc  = https://github.com/blau-io/idris-xhr.git
+bugtracker = https://github.com/blau-io/idris-xhr/issues
+
+sourcedir = src
+pkgs      = idrisscript
+
+modules = API.Web.XHR.XMLHttpRequest
+        , API.Web.XHR.XMLHttpRequestEventTarget
