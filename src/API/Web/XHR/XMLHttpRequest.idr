@@ -31,3 +31,18 @@ open xhr = jscall "%0.open(%1, %2)" (JSRef -> String -> String -> JS_IO ()) $
 send : XMLHttpRequest -> JS_IO ()
 send xhr = jscall "%0.send()" (JSRef -> JS_IO ()) $ self xhr
 
+-- TODO: No options yet, callback is missing event, etc. This should really live
+-- somewhere else, but I'm under time pressure for LD38.
+partial
+addEventListener : XMLHttpRequest -> (type : String) ->
+                   (cb : (XMLHttpRequest -> JS_IO ())) -> JS_IO ()
+addEventListener (NewXMLRequest self) type cb = addEventListener' where
+  callback : () -> JS_IO ()
+  callback _ = cb $ NewXMLRequest self
+
+  partial
+  addEventListener' : JS_IO ()
+  addEventListener' = jscall "%0.addEventListener(%1, %2)"
+    (JSRef -> String -> JsFn (() -> JS_IO ()) -> JS_IO ()) self type $
+    MkJsFn callback
+
